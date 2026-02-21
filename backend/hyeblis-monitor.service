@@ -1,0 +1,45 @@
+[Unit]
+Description=HYEBLiS Hydro Power Monitor
+Documentation=https://github.com/your-org/hyeblis
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=hyeblis
+Group=hyeblis
+
+WorkingDirectory=/opt/hyeblis/backend
+ExecStart=/opt/hyeblis/venv/bin/python main.py
+
+# Auto-restart on failure with an exponential back-off cap
+Restart=on-failure
+RestartSec=5s
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+# Logging – journalctl -u hyeblis-monitor -f
+StandardOutput=journal
+StandardError=journal
+
+# Runtime directories (auto-created by systemd)
+RuntimeDirectory=hyeblis
+StateDirectory=hyeblis
+LogsDirectory=hyeblis
+
+# Environment overrides – edit as needed
+Environment=DB_PATH=/var/lib/hyeblis/hyeblis.db
+Environment=LOG_FILE=/var/log/hyeblis/hyeblis.log
+Environment=API_HOST=0.0.0.0
+Environment=API_PORT=5000
+Environment=POLL_INTERVAL_SECONDS=3
+Environment=LOG_LEVEL=INFO
+
+# Minimal hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/hyeblis /var/log/hyeblis
+
+[Install]
+WantedBy=multi-user.target

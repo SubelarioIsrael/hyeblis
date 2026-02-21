@@ -1,0 +1,10 @@
+# Python dependencies for HYEBLiS backend
+# Install with: pip install -r requirements.txt
+
+flask>=3.0,<4
+flask-cors>=4.0,<5
+
+# INA219 sensor driver (Raspberry Pi only)
+# Comment out if developing without hardware; the sensor module auto-falls back
+# to simulation when this is not installed
+pi-ina219>=1.4.1,<2
