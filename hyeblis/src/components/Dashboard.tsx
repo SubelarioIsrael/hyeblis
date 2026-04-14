@@ -63,18 +63,41 @@ const Dashboard: React.FC = () => {
 
         {/* ── Home ──────────────────────────────────────────────────── */}
         {activePage === "home" && (
-          <div className="page page--home">
-            <section className="metric-grid">
-              <MetricCard label="Voltage"  value={latest?.voltage         ?? null} unit="V" decimals={3} accent="primary" />
-              <MetricCard label="Current"  value={latest?.current         ?? null} unit="A" decimals={4} accent="warning" />
-              <MetricCard label="Power"    value={latest?.power           ?? null} unit="W" decimals={3} accent="danger"  />
-              <MetricCard label="Battery"  value={latest?.battery_percent ?? null} unit="%" decimals={1} accent="success" />
+          <main className="home-circle-page">
+            <section className="home-circle-grid" aria-label="Live metrics">
+              <article className="metric-circle metric-circle--primary">
+                <span className="metric-circle__label">Voltage</span>
+                <span className="metric-circle__value">
+                  {latest?.voltage !== undefined ? latest.voltage.toFixed(3) : "—"}
+                  <span className="metric-circle__unit">V</span>
+                </span>
+              </article>
+
+              <article className="metric-circle metric-circle--warning">
+                <span className="metric-circle__label">Current</span>
+                <span className="metric-circle__value">
+                  {latest?.current !== undefined ? latest.current.toFixed(4) : "—"}
+                  <span className="metric-circle__unit">A</span>
+                </span>
+              </article>
+
+              <article className="metric-circle metric-circle--danger">
+                <span className="metric-circle__label">Power</span>
+                <span className="metric-circle__value">
+                  {latest?.power !== undefined ? latest.power.toFixed(3) : "—"}
+                  <span className="metric-circle__unit">W</span>
+                </span>
+              </article>
+
+              <article className="metric-circle metric-circle--success">
+                <span className="metric-circle__label">Battery</span>
+                <span className="metric-circle__value">
+                  {latest?.battery_percent !== undefined ? latest.battery_percent.toFixed(1) : "—"}
+                  <span className="metric-circle__unit">%</span>
+                </span>
+              </article>
             </section>
-            <section className="chart-section">
-              <h2 className="chart-section__title">Voltage &amp; Power — Live</h2>
-              <PowerChart history={history} />
-            </section>
-          </div>
+          </main>
         )}
 
         {/* ── Real-time Graph ───────────────────────────────────────── */}
