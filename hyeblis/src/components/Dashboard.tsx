@@ -226,7 +226,7 @@ function downloadCsv(rows: PowerReading[]): void {
 // ── Page title map ────────────────────────────────────────────────────────────
 const PAGE_TITLE: Record<Page, string> = {
   home:  "Home",
-  graph: "Real-time Data Graph",
+  graph: "Data Graph",
   log:   "Data Log",
 };
 
