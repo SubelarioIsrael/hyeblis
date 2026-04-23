@@ -10,6 +10,9 @@ export default defineConfig({
     proxy: {
       '/latest': 'http://localhost:5000',
       '/history': 'http://localhost:5000',
+      '/history/clear': 'http://localhost:5000',
+      '/import': 'http://localhost:5000',
+      '/import-file': 'http://localhost:5000',
       '/health': 'http://localhost:5000',
     },
   },

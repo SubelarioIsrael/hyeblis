@@ -142,6 +142,7 @@
   min-width: 0;
   padding: 1.5rem 2rem;
   gap: 1.5rem;
+  position: relative;
 }
 
 /* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -480,4 +481,19 @@
   border-top: 1px solid #1e293b;
   margin-top: auto;
 }
+
+.secret-hitbox {
+  position: absolute;
+  bottom: 6px;
+  width: 56px;
+  height: 56px;
+  border: none;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.secret-hitbox--import { right: 8px; }
+.secret-hitbox--clear { right: 68px; }
 

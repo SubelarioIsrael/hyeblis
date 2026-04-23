@@ -6,9 +6,13 @@ import type { FetchStatus, PowerReading } from "../types";
 // In development the Vite proxy forwards /latest and /history to Flask.
 // For production builds deployed to a different origin, set VITE_API_BASE_URL
 // (e.g. VITE_API_BASE_URL=http://raspberrypi.local:5000).
-const API_BASE: string = import.meta.env.VITE_API_BASE_URL ?? "";
+const API_BASE: string =
+  import.meta.env.VITE_API_BASE_URL ??
+  ((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? "http://localhost:5000"
+    : "");
 
-const POLL_MS = 3_000;       // match backend POLL_INTERVAL_SECONDS
+const POLL_MS = 60_000;      // backend records every 1h; poll latest once per minute
 const MAX_HISTORY = 120;     // keep ~6 minutes of data in memory
 
 interface UsePowerDataReturn {
@@ -16,6 +20,7 @@ interface UsePowerDataReturn {
   history: PowerReading[];
   status: FetchStatus;
   lastUpdated: Date | null;
+  refreshLatest: () => Promise<void>;
 }
 
 export function usePowerData(): UsePowerDataReturn {
@@ -60,5 +65,5 @@ export function usePowerData(): UsePowerDataReturn {
     return () => clearInterval(id);
   }, [fetchLatest]);
 
-  return { latest, history, status, lastUpdated };
+  return { latest, history, status, lastUpdated, refreshLatest: fetchLatest };
 }

@@ -74,6 +74,39 @@ def insert_reading(reading: SensorReading) -> None:
         )
 
 
+def insert_imported_readings(rows: list[dict]) -> int:
+    """Persist many imported readings.
+
+    Each row must include: timestamp, voltage, current, power, battery_percent.
+    Returns number of inserted rows.
+    """
+    if not rows:
+        return 0
+
+    payload: list[dict] = []
+    for row in rows:
+        payload.append(
+            {
+                "timestamp": row["timestamp"],
+                "voltage": float(row["voltage"]),
+                "current": float(row["current"]),
+                "power": float(row["power"]),
+                "battery_percent": float(row["battery_percent"]),
+            }
+        )
+
+    with _get_conn() as conn:
+        conn.executemany(
+            """
+            INSERT INTO readings (timestamp, voltage, current, power, battery_percent)
+            VALUES (:timestamp, :voltage, :current, :power, :battery_percent)
+            """,
+            payload,
+        )
+
+    return len(payload)
+
+
 def fetch_latest() -> dict | None:
     """Return the most recent reading as a dict, or None if the table is empty."""
     with _get_conn() as conn:
@@ -95,3 +128,11 @@ def fetch_history(limit: int = 100) -> list[dict]:
             (min(max(limit, 1), 10_000),),
         ).fetchall()
     return [dict(r) for r in rows]
+
+
+def clear_all_readings() -> int:
+    """Delete all rows from readings and reset autoincrement counter."""
+    with _get_conn() as conn:
+        deleted = conn.execute("DELETE FROM readings").rowcount
+        conn.execute("DELETE FROM sqlite_sequence WHERE name = 'readings'")
+    return deleted if deleted is not None else 0

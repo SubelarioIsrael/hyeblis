@@ -3,7 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import type { FetchStatus, PowerReading } from "../types";
 
-const API_BASE: string = import.meta.env.VITE_API_BASE_URL ?? "";
+const API_BASE: string =
+  import.meta.env.VITE_API_BASE_URL ??
+  ((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? "http://localhost:5000"
+    : "");
 const HISTORY_LIMIT = 50_000; // large cap; server clamps to 10 000
 
 interface UseHistoryDataReturn {

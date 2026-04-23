@@ -8,7 +8,7 @@ INA219_ADDRESS: int = int(os.getenv("INA219_ADDRESS", "0x40"), 16)
 MAX_EXPECTED_CURRENT_A: float = float(os.getenv("MAX_EXPECTED_CURRENT_A", "3.2"))
 
 # ── Sampling ──────────────────────────────────────────────────────────────────
-POLL_INTERVAL_SECONDS: float = float(os.getenv("POLL_INTERVAL_SECONDS", "3"))
+POLL_INTERVAL_SECONDS: float = float(os.getenv("POLL_INTERVAL_SECONDS", "3600"))
 
 # ── Battery ───────────────────────────────────────────────────────────────────
 # Voltage thresholds for a single-cell LiPo / LiFePO4 pack.
